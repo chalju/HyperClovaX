@@ -218,6 +218,18 @@ class ChatCompletions:
         elif response_format is not None and model == "HCX-007":
             # Structured output requires thinking.effort = "none"
             request_data["thinking"] = {"effort": "none"}
+        # Function calling with HCX-007 requires thinking.effort = "none"
+        if tools is not None and model == "HCX-007":
+            request_data["thinking"] = {"effort": "none"}
+        
+        # Check if any message has role "tool" - this indicates follow-up request after tool call
+        has_tool_messages = any(
+            msg.get("role") == "tool" if isinstance(msg, dict) else getattr(msg, "role", None) == "tool" 
+            for msg in prepared_messages
+        )
+        if has_tool_messages and model == "HCX-007":
+            request_data["thinking"] = {"effort": "none"}
+        
         if tools is not None:
             request_data["tools"] = [
                 tool if isinstance(tool, dict) else tool.model_dump(by_alias=True)
@@ -445,6 +457,18 @@ class ChatCompletions:
         elif response_format is not None and model == "HCX-007":
             # Structured output requires thinking.effort = "none"
             request_data["thinking"] = {"effort": "none"}
+        # Function calling with HCX-007 requires thinking.effort = "none"
+        if tools is not None and model == "HCX-007":
+            request_data["thinking"] = {"effort": "none"}
+        
+        # Check if any message has role "tool" - this indicates follow-up request after tool call
+        has_tool_messages = any(
+            msg.get("role") == "tool" if isinstance(msg, dict) else getattr(msg, "role", None) == "tool" 
+            for msg in prepared_messages
+        )
+        if has_tool_messages and model == "HCX-007":
+            request_data["thinking"] = {"effort": "none"}
+        
         if tools is not None:
             request_data["tools"] = [
                 tool if isinstance(tool, dict) else tool.model_dump(by_alias=True)
