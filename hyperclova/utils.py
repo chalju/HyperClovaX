@@ -165,7 +165,7 @@ def validate_model_capability(
     capabilities = {
         "HCX-005": ["vision", "function_calling"],
         "HCX-007": ["thinking", "structured_output", "function_calling"],
-        "HCX-DASH-002": [],
+        "HCX-DASH-002": ["function_calling"],
     }
     
     model_caps = capabilities.get(model, [])
